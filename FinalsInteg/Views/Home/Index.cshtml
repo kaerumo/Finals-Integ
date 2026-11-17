@@ -1,0 +1,19 @@
+﻿@model FinalsInteg.Models.DashboardViewModel
+@{ ViewData["Title"] = "Dashboard"; }
+
+<section class="hero-panel mb-4">
+    <div><p class="eyebrow">OPERATIONS OVERVIEW</p><h1>Good morning, manager.</h1><p class="hero-copy">Track inventory, capture sales, and turn daily transactions into clear decisions.</p></div>
+    <a class="btn btn-primary px-4" asp-controller="Transactions" asp-action="Create">Record a sale <span>→</span></a>
+</section>
+<div class="row g-3 mb-4">
+    <div class="col-md-3"><div class="stat-card"><span class="stat-icon blue">◫</span><p>Total products</p><h2>@Model.TotalProducts</h2><small>Active catalog items</small></div></div>
+    <div class="col-md-3"><div class="stat-card"><span class="stat-icon green">↗</span><p>Total revenue</p><h2>₱@Model.TotalRevenue.ToString("N2")</h2><small>Across all transactions</small></div></div>
+    <div class="col-md-3"><div class="stat-card"><span class="stat-icon orange">◷</span><p>Transactions</p><h2>@Model.TotalTransactions</h2><small>Recorded sales</small></div></div>
+    <div class="col-md-3"><div class="stat-card"><span class="stat-icon red">!</span><p>Low stock</p><h2>@Model.LowStockCount</h2><small>Needs your attention</small></div></div>
+</div>
+<div class="row g-4">
+    <div class="col-lg-8"><div class="content-card"><div class="section-heading"><div><p class="eyebrow">RECENT ACTIVITY</p><h3>Latest transactions</h3></div><a asp-controller="Transactions" asp-action="Index">View all →</a></div>
+        @if (Model.RecentTransactions.Any()) { <div class="table-responsive"><table class="table align-middle"><thead><tr><th>Customer</th><th>Product</th><th>Date</th><th class="text-end">Amount</th></tr></thead><tbody>@foreach (var item in Model.RecentTransactions) { <tr><td class="fw-semibold">@item.CustomerName</td><td>@item.Product?.Name</td><td>@item.TransactionDate.ToString("MMM dd, yyyy")</td><td class="text-end fw-semibold">₱@item.TotalAmount.ToString("N2")</td></tr>}</tbody></table></div> } else { <div class="empty-state">No sales yet. Record your first transaction to see it here.</div> }
+    </div></div>
+    <div class="col-lg-4"><div class="content-card h-100"><div class="section-heading"><div><p class="eyebrow">INVENTORY HEALTH</p><h3>Low stock items</h3></div></div>@if (Model.LowStockProducts.Any()) { foreach (var product in Model.LowStockProducts) { <div class="stock-row"><span>@product.Name<small>@product.Category</small></span><strong class="text-danger">@product.StockQuantity left</strong></div> } } else { <div class="empty-state">Your inventory is looking healthy.</div> }</div></div>
+</div>
