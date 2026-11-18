@@ -2,10 +2,12 @@ using FinalsInteg.Data;
 using FinalsInteg.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
 
 namespace FinalsInteg.Controllers;
 
+[Authorize(Roles = "Admin")]
 public class HomeController(AppDbContext db) : Controller
 {
     public async Task<IActionResult> Index()

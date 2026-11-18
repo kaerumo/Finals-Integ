@@ -1,9 +1,11 @@
 using FinalsInteg.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FinalsInteg.Controllers;
 
+[Authorize(Roles = "Admin")]
 public class ReportsController(AppDbContext db) : Controller
 {
     public async Task<IActionResult> Index()

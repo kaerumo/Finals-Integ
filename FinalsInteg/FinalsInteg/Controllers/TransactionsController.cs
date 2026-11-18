@@ -2,9 +2,11 @@ using FinalsInteg.Data;
 using FinalsInteg.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FinalsInteg.Controllers;
 
+[Authorize(Roles = "Admin")]
 public class TransactionsController(AppDbContext db) : Controller
 {
     public async Task<IActionResult> Index(string? search) => View(await db.Transactions.Include(t => t.Product).Where(t => string.IsNullOrWhiteSpace(search) || t.CustomerName.Contains(search) || (t.Product != null && t.Product.Name.Contains(search))).OrderByDescending(t => t.TransactionDate).ToListAsync());

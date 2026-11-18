@@ -2,9 +2,11 @@ using FinalsInteg.Data;
 using FinalsInteg.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FinalsInteg.Controllers;
 
+[Authorize(Roles = "Admin")]
 public class ProductsController(AppDbContext db) : Controller
 {
     public async Task<IActionResult> Index(string? search) => View(await db.Products.Where(p => string.IsNullOrWhiteSpace(search) || p.Name.Contains(search) || p.Category.Contains(search)).OrderBy(p => p.Name).ToListAsync());

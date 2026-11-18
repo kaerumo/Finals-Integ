@@ -9,7 +9,7 @@ public class Transaction
     [Required] public int ProductId { get; set; }
     public Product? Product { get; set; }
     [Range(1, 100000)] public int Quantity { get; set; }
-    [Range(0.01, 10000000)] public decimal TotalAmount { get; set; }
+    public decimal TotalAmount { get; set; }
     [Required, StringLength(30)] public string PaymentMethod { get; set; } = "Cash";
     [DataType(DataType.Date)] public DateTime TransactionDate { get; set; } = DateTime.Today;
 }
