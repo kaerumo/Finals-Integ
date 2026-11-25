@@ -23,10 +23,15 @@ public class CustomerController(AppDbContext db) : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Purchase(int productId, int quantity, string customerName)
+    public async Task<IActionResult> Purchase(int productId, int quantity, string customerName, string paymentMethod = "Cash")
     {
         var product = await db.Products.FindAsync(productId);
         if (product is null) return NotFound();
+        if (paymentMethod is not ("Cash" or "GCash" or "Card" or "Bank transfer"))
+        {
+            TempData["Error"] = "Please select a valid payment method.";
+            return RedirectToAction(nameof(Index));
+        }
         if (string.IsNullOrWhiteSpace(customerName))
         {
             TempData["Error"] = "Customer name is required.";
@@ -45,7 +50,7 @@ public class CustomerController(AppDbContext db) : Controller
             ProductId = product.ProductId,
             Quantity = quantity,
             TotalAmount = product.Price * quantity,
-            PaymentMethod = "Cash",
+            PaymentMethod = paymentMethod,
             TransactionDate = DateTime.Today
         });
         await db.SaveChangesAsync();

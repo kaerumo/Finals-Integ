@@ -33,6 +33,15 @@
                             <label class="form-label" for="quantity-@product.ProductId">Quantity</label>
                             <input id="quantity-@product.ProductId" name="quantity" type="number" min="1" value="1" class="form-control" required />
                         </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="paymentMethod-@product.ProductId">Payment method</label>
+                            <select id="paymentMethod-@product.ProductId" name="paymentMethod" class="form-select" required>
+                                <option value="Cash" selected>Cash</option>
+                                <option value="GCash">GCash</option>
+                                <option value="Card">Card</option>
+                                <option value="Bank transfer">Bank transfer</option>
+                            </select>
+                        </div>
                         <button class="btn btn-primary w-100">Purchase</button>
                     </form>
                 </div>
